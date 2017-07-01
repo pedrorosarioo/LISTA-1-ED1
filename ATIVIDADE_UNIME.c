@@ -152,94 +152,126 @@ void PrintaFila(Lista y[]){
   }
 }
 
+void PrintaLista(TipoLista x){
+	while(x!=NULL){
+		printf("%d %d ", (x->deque[0])->chave,(x->deque[1])->chave);
+		x=x->lprox;
+		}
+}
+
+int menor(Lista y[]){
+	if (y[0]==NULL){
+		return 0;
+	}if (y[1]->chave>y[0]->chave){
+		return y[0]->chave;
+	}else return y[1]->chave;
+}
 // ------------------------------- ESPECIFICAS ---------------------------------------------------
 void PROVA_Exclusao(TipoLista *x, Lista y[]){
-TipoLista aux2, aux3;
-Lista aux;
-aux3=*x;
-  if (aux3->deque[0]==NULL){
-    *x=(*x)->lprox;
-    free(aux3);
-  }else{ 
-    if ((((*x)->deque[0])->chave>(((*x)->lprox)->deque[0])->chave)&&(((*x)->deque[0])->chave>(((*x)->lprox)->deque[1])->chave)){
-    aux2 = ExcluiLista(x, *x);
-    InsereLista(x, aux2);
-  }
-  aux=Remove((*x)->deque);
-  InsereFim(y, aux->chave);
-  }
+TipoLista aux, aux2;
+Lista r, aux3=(*x)->deque[0];
+	while((aux3==NULL)&&((*x)!=NULL)){
+		aux2=*x;
+		*x=(*x)->lprox;
+		free(aux2);
+		aux3=(*x)->deque[0];
+	}
+	if(*x){
+//		printf("%d", ((*x)->deque[0])->chave);
+		if((*x)->lprox){
+//			printf(" %d\n", (((*x)->lprox)->deque[0])->chave);
+			if (((*x)->deque[0]->chave)>menor(((*x)->lprox)->deque)){
+				printf("%d Realocado!\n", ((*x)->deque[0])->chave);
+				aux2=*x;
+				aux=ExcluiLista(x, aux2);
+				InsereLista(x, aux);
+			}
+		}
+	}
+	r=Remove((*x)->deque);
+	InsereFim(y, r->chave);
+	free(r);
 }
+
 
 void Ordenada(TipoLista *x, Lista y[], int n){
 int i;
   for(i=0; i<n; i++){
-    if ((*x)&&((*x)->lprox)){
       PROVA_Exclusao(x, y);
     }
-  }
 }
 
 int main(){
 TipoLista aux, aux2, x=(TipoLista)malloc(sizeof(TipoNoLista));
 Lista y[2];
-int n=4;
+int n=11;
 
   y[0]=NULL;
   y[1]=NULL;
   x->deque[0]=NULL;
   x->deque[1]=NULL;
   InsereFim(x->deque, 2);
-  InsereFim(x->deque, 4);
+  InsereFim(x->deque, 12);
+  InsereFim(x->deque, 24);
   
   aux2=(TipoLista)malloc(sizeof(TipoNoLista));
   aux2->deque[0]=NULL;
   aux2->deque[1]=NULL;
   InsereFim(aux2->deque, 3);
-  InsereFim(aux2->deque, 8);
-  InsereFim(aux2->deque, 9);
+  InsereFim(aux2->deque, 21);
   InsereLista(&x, aux2);
-  printf("%d %d\n", (aux2->deque[0])->chave, (aux2->deque[1])->chave);
+  aux=NULL;
+
   
   aux2=(TipoLista)malloc(sizeof(TipoNoLista));
   aux2->deque[0]=NULL;
   aux2->deque[1]=NULL;
   InsereFim(aux2->deque, 5);
-  InsereFim(aux2->deque, 15);
+  InsereFim(aux2->deque, 17);
+  InsereFim(aux2->deque, 20);
   InsereLista(&x, aux2);
-  printf("%d %d\n", (aux2->deque[0])->chave, (aux2->deque[1])->chave);
+  aux=NULL;
+
   
   aux2=(TipoLista)malloc(sizeof(TipoNoLista));
   aux2->deque[0]=NULL;
   aux2->deque[1]=NULL;
   InsereFim(aux2->deque, 7);
-  InsereFim(aux2->deque, 6);
+  InsereFim(aux2->deque, 15);
   InsereLista(&x, aux2);
-  printf("%d %d\n", (aux2->deque[0])->chave, (aux2->deque[1])->chave);
+  aux=NULL;
+
+
   
   aux2=(TipoLista)malloc(sizeof(TipoNoLista));
   aux2->deque[0]=NULL;
   aux2->deque[1]=NULL;
-  InsereFim(aux2->deque, 16);
-  InsereFim(aux2->deque, 5000);
+  InsereFim(aux2->deque, 10);
+  InsereFim(aux2->deque, 12);
+  InsereFim(aux2->deque, 18);
+  InsereFim(aux2->deque, 54);
   InsereLista(&x, aux2);
-  printf("%d %d\n", (aux2->deque[0])->chave, (aux2->deque[1])->chave);
+  aux=NULL;
+
+
   
   aux2=(TipoLista)malloc(sizeof(TipoNoLista));
   aux2->deque[0]=NULL;
   aux2->deque[1]=NULL;
-  InsereFim(aux2->deque, 6000);
-  InsereFim(aux2->deque, 3000);
+  InsereFim(aux2->deque, 11);
+  InsereFim(aux2->deque, 14);
   InsereLista(&x, aux2);
-  
-  printf("%d %d\n", (aux2->deque[0])->chave, (aux2->deque[1])->chave); 
-  
+  aux=NULL;
+
+   
+  PrintaLista(x);
+  printf("\n");
   Ordenada(&x, y, n);
   PrintaFila(y);
+  printf("\n");
+  //PrintaLista(x);
   
   
   
 	return 0;
 }
-
-
-
