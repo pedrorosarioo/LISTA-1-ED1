@@ -159,6 +159,17 @@ void PrintaLista(TipoLista x){
 		}
 }
 
+void ListaSuicida(TipoLista x){
+Lista aux;  
+  while(x!=NULL){
+    while(x->deque[0]){
+      aux=RemoveInicio(x->deque);
+      printf("%d ", aux->chave);
+    }
+  x=x->lprox;
+  }
+}
+
 int menor(Lista y[]){
 	if (y[0]==NULL){
 		return 0;
@@ -167,6 +178,55 @@ int menor(Lista y[]){
 	}else return y[1]->chave;
 }
 // ------------------------------- ESPECIFICAS ---------------------------------------------------
+void InsereEstrutura(TipoLista *x, int n){
+TipoLista aux2, aux=*x;
+  while(aux!=NULL){
+    if ((aux->deque[0])==NULL){
+      printf("Inseri o dado %d\n", n);
+      InsereFim(aux->deque, n);
+      break;
+    }else if((aux->deque[0])->chave >= n){
+      printf("Inseri o valor %d no inicio do nó que começa com %d\n", n, (aux->deque[0])->chave);
+      InsereInicio(aux->deque, n);
+      break;
+    }else if((aux->deque[1])->chave <= n){
+      printf("Inseri o valor %d no final do nó que termina com %d\n", n, (aux->deque[1])->chave);
+      InsereFim(aux->deque, n);
+      break;
+    }else{
+      aux=aux->lprox;
+    }
+  }
+  if(aux==NULL){
+    aux=*x;
+    while(aux!=NULL){
+      if((((aux->deque[0])->chave)<=n)&&(((aux->deque[1])->chave)>=n)){
+        printf("Criei um novo nó após o nó que termina com %d, e inseri o valor %d\n", 
+        (aux->deque[1])->chave, n);
+        aux2=(TipoLista)malloc(sizeof(TipoNoLista));
+        aux2->deque[0]=NULL;
+        aux2->deque[1]=NULL;
+        aux2->lprox=aux->lprox;
+        aux->lprox=aux2;
+        InsereFim(aux2->deque, n);
+        break;
+      }  
+    }
+    if (aux==NULL){
+      printf("Criei um novo nó no inicio da estrutura para inserir o dado %d\n", n);
+      aux=(TipoLista)malloc(sizeof(TipoNoLista));
+      aux->deque[0]=NULL;
+      aux->deque[1]=NULL;
+      aux->lprox=*x;
+      *x=aux;
+      InsereFim(aux->deque, n);
+    }
+  }
+}
+
+
+
+
 void PROVA_Exclusao(TipoLista *x, Lista y[]){
 TipoLista aux, aux2;
 Lista r, aux3=(*x)->deque[0];
@@ -210,7 +270,7 @@ int n=11;
   y[1]=NULL;
   x->deque[0]=NULL;
   x->deque[1]=NULL;
-  InsereFim(x->deque, 2);
+ /* InsereFim(x->deque, 2);
   InsereFim(x->deque, 12);
   InsereFim(x->deque, 24);
   
@@ -261,13 +321,29 @@ int n=11;
   InsereFim(aux2->deque, 11);
   InsereFim(aux2->deque, 14);
   InsereLista(&x, aux2);
-  aux=NULL;
+  aux=NULL;*/
 
+  InsereEstrutura(&x, 2);
+  InsereEstrutura(&x, 12);
+  InsereEstrutura(&x, 24);
+  InsereEstrutura(&x, 3);
+  InsereEstrutura(&x, 21);
+  InsereEstrutura(&x, 5);
+  InsereEstrutura(&x, 17);
+  InsereEstrutura(&x, 20);
+  InsereEstrutura(&x, 7);
+  InsereEstrutura(&x, 15);
+  InsereEstrutura(&x, 10);
+  InsereEstrutura(&x, 12);
+  InsereEstrutura(&x, 18);
+  InsereEstrutura(&x, 54);
+  InsereEstrutura(&x, 11);
+  InsereEstrutura(&x, 14);
    
-  PrintaLista(x);
+  ListaSuicida(x);
   printf("\n");
-  Ordenada(&x, y, n);
-  PrintaFila(y);
+  //Ordenada(&x, y, n);
+  //PrintaFila(y);
   printf("\n");
   //PrintaLista(x);
   
