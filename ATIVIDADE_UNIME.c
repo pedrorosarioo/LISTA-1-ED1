@@ -182,7 +182,7 @@ void InsereEstrutura(TipoLista *x, int n){
 TipoLista aux2, aux=*x;
   while(aux!=NULL){
     if ((aux->deque[0])==NULL){
-      printf("Inseri o dado %d\n", n);
+      printf("O nó estava vazio, inseri o valor %d\n", n);
       InsereFim(aux->deque, n);
       break;
     }else if((aux->deque[0])->chave >= n){
@@ -194,33 +194,18 @@ TipoLista aux2, aux=*x;
       InsereFim(aux->deque, n);
       break;
     }else{
+	  aux2=aux;
       aux=aux->lprox;
     }
   }
   if(aux==NULL){
-    aux=*x;
-    while(aux!=NULL){
-      if((((aux->deque[0])->chave)<=n)&&(((aux->deque[1])->chave)>=n)){
-        printf("Criei um novo nó após o nó que termina com %d, e inseri o valor %d\n", 
-        (aux->deque[1])->chave, n);
-        aux2=(TipoLista)malloc(sizeof(TipoNoLista));
-        aux2->deque[0]=NULL;
-        aux2->deque[1]=NULL;
-        aux2->lprox=aux->lprox;
-        aux->lprox=aux2;
-        InsereFim(aux2->deque, n);
-        break;
-      }  
-    }
-    if (aux==NULL){
-      printf("Criei um novo nó no inicio da estrutura para inserir o dado %d\n", n);
-      aux=(TipoLista)malloc(sizeof(TipoNoLista));
-      aux->deque[0]=NULL;
-      aux->deque[1]=NULL;
-      aux->lprox=*x;
-      *x=aux;
-      InsereFim(aux->deque, n);
-    }
+    aux=(TipoLista)malloc(sizeof(TipoNoLista));
+    aux->deque[0]=NULL;
+    aux->deque[1]=NULL;
+	InsereFim(aux->deque, n);
+	aux->lprox=NULL;
+	aux2->lprox=aux;
+	printf("Criei um novo nó, na frente do nó que começa com %d, e inseri nele o valor %d\n", (aux2->deque[0])->chave, n);
   }
 }
 
@@ -325,11 +310,14 @@ int n=11;
 
   InsereEstrutura(&x, 2);
   InsereEstrutura(&x, 12);
+  InsereEstrutura(&x, 1);
   InsereEstrutura(&x, 24);
   InsereEstrutura(&x, 3);
+  InsereEstrutura(&x, 4);
   InsereEstrutura(&x, 21);
   InsereEstrutura(&x, 5);
   InsereEstrutura(&x, 17);
+  InsereEstrutura(&x, 16);
   InsereEstrutura(&x, 20);
   InsereEstrutura(&x, 7);
   InsereEstrutura(&x, 15);
@@ -338,12 +326,15 @@ int n=11;
   InsereEstrutura(&x, 18);
   InsereEstrutura(&x, 54);
   InsereEstrutura(&x, 11);
+  InsereEstrutura(&x, 6);
   InsereEstrutura(&x, 14);
+  InsereEstrutura(&x, 0);
+  
    
-  ListaSuicida(x);
+//ListaSuicida(x);
   printf("\n");
-  //Ordenada(&x, y, n);
-  //PrintaFila(y);
+  Ordenada(&x, y, n);
+  PrintaFila(y);
   printf("\n");
   //PrintaLista(x);
   
